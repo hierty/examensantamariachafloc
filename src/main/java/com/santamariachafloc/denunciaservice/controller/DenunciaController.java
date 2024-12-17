@@ -1,64 +1,64 @@
-package com.torrescorrea.infraccionservice.controller;
+package com.santamariachafloc.denunciaservice.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.torrescorrea.infraccionservice.entity.Infraccion;
-import com.torrescorrea.infraccionservice.service.InfraccionService;
+import com.santamariachafloc.denunciaservice.entity.Denuncia;
+import com.santamariachafloc.denunciaservice.service.DenunciaService;
 
 @RestController
-@RequestMapping("/api/v1/infracciones")
-public class InfraccionController {
+@RequestMapping("/api/v1/denuncias")
+public class DenunciaController {
 
     @Autowired
-    private InfraccionService service;
+    private DenunciaService service;
 
     @PostMapping
-    public ResponseEntity<Infraccion> create(@RequestBody Infraccion infraccion) {
-        Infraccion nuevaInfraccion = service.create(infraccion);
-        return ResponseEntity.ok(nuevaInfraccion);
+    public ResponseEntity<Denuncia> create(@RequestBody Denuncia denuncia) {
+        Denuncia nuevaDenuncia = service.create(denuncia);
+        return ResponseEntity.ok(nuevaDenuncia);
     }
 
     @GetMapping
-    public ResponseEntity<List<Infraccion>> list(
+    public ResponseEntity<List<Denuncia>> list(
             @RequestParam(value = "offset", defaultValue = "0") int offset,
             @RequestParam(value = "limit", defaultValue = "5") int limit) {
-        List<Infraccion> infracciones = service.getAll();
-        if (infracciones.isEmpty()) {
+        List<Denuncia> denuncias = service.getAll();
+        if (denuncias.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        int toIndex = Math.min(offset + limit, infracciones.size());
-        return ResponseEntity.ok(infracciones.subList(offset, toIndex));
+        int toIndex = Math.min(offset + limit, denuncias.size());
+        return ResponseEntity.ok(denuncias.subList(offset, toIndex));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Infraccion> get(@PathVariable Integer id) {
-        Infraccion infraccion = service.get(id);
-        if (infraccion == null) {
+    public ResponseEntity<Denuncia> get(@PathVariable Integer id) {
+        Denuncia denuncia = service.get(id);
+        if (denuncia == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(infraccion);
+        return ResponseEntity.ok(denuncia);
     }
 
     @GetMapping("/usuario/{dni}")
-    public ResponseEntity<List<Infraccion>> getByDni(@PathVariable String dni) {
-        List<Infraccion> infracciones = service.getByDni(dni);
-        if (infracciones.isEmpty()) {
+    public ResponseEntity<List<Denuncia>> getByDni(@PathVariable String dni) {
+        List<Denuncia> denuncias = service.getByDni(dni);
+        if (denuncias.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(infracciones);
+        return ResponseEntity.ok(denuncias);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Infraccion> anular(@PathVariable Integer id) {
-        Infraccion infraccion = service.get(id);
-        if (infraccion == null) {
+    public ResponseEntity<Denuncia> anular(@PathVariable Integer id) {
+        Denuncia denuncia = service.get(id);
+        if (denuncia == null) {
             return ResponseEntity.notFound().build();
         }
-        infraccion.setEstado("Anulada");
-        Infraccion infraccionAnulada = service.update(infraccion);
-        return ResponseEntity.ok(infraccionAnulada);
+        denuncia.setEstado("Anulada");
+        Denuncia denunciaAnulada = service.update(denuncia);
+        return ResponseEntity.ok(denunciaAnulada);
     }
 }

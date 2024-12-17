@@ -1,14 +1,13 @@
-package com.torrescorrea.infraccionservice.service;
+package com.santamariachafloc.denunciaservice.service;
 
 import java.util.List;
+import com.santamariachafloc.denunciaservice.entity.Denuncia;
 
-import com.torrescorrea.infraccionservice.entity.Infraccion;
-
-public interface InfraccionService {
-    List<Infraccion> getAll();
-    Infraccion get(Integer id);
-    Infraccion create(Infraccion infraccion);
-    Infraccion update(Infraccion infraccion);
+public interface DenunciaService {
+    List<Denuncia> getAll();
+    Denuncia get(Integer id);
+    Denuncia create(Denuncia denuncia);
+    Denuncia update(Denuncia denuncia);
     void delete(Integer id);
-    List<Infraccion> getByDni(String dni);
+    List<Denuncia> getByDni(String dni);
 }

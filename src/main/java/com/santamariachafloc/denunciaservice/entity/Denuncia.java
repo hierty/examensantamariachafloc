@@ -1,12 +1,12 @@
-package com.torrescorrea.infraccionservice.entity;
+package com.santamariachafloc.denunciaservice.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "infracciones")
-public class Infraccion {
-    
+@Table(name = "denuncias")
+public class Denuncia {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -17,22 +17,25 @@ public class Infraccion {
     @Column(nullable = false)
     private LocalDateTime fecha;
 
-    @Column(nullable = false, length = 20)
-    private String tipo_infraccion;
+    @Column(nullable = false, length = 3)
+    private String titulo;
 
     @Column(nullable = false, length = 200)
-    private String ubicacion;
+    private String direccion;
 
     @Column(length = 255)
     private String descripcion;
 
     @Column(nullable = false)
-    private Double monto_multa;
+    private LocalDateTime createdAt;
+
+    @Column
+    private LocalDateTime updatedAt;
 
     @Column(nullable = false, length = 20)
     private String estado;
 
-    // Getters and setters
+    // Getters y Setters
 
     public Integer getId() {
         return id;
@@ -58,20 +61,20 @@ public class Infraccion {
         this.fecha = fecha;
     }
 
-    public String getTipo_infraccion() {
-        return tipo_infraccion;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setTipo_infraccion(String tipo_infraccion) {
-        this.tipo_infraccion = tipo_infraccion;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
-    public String getUbicacion() {
-        return ubicacion;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setUbicacion(String ubicacion) {
-        this.ubicacion = ubicacion;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
     public String getDescripcion() {
@@ -82,12 +85,20 @@ public class Infraccion {
         this.descripcion = descripcion;
     }
 
-    public Double getMonto_multa() {
-        return monto_multa;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setMonto_multa(Double monto_multa) {
-        this.monto_multa = monto_multa;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public String getEstado() {

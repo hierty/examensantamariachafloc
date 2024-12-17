@@ -1,5 +1,6 @@
-package com.torrescorrea.infraccionservice.serviceimpl;
+package com.santamariachafloc.denunciaservice.serviceimpl;
 
+import java.time.LocalDateTime; 
 import java.util.List;
 import java.util.Optional;
 
@@ -7,47 +8,48 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.torrescorrea.infraccionservice.entity.Infraccion;
-import com.torrescorrea.infraccionservice.repository.InfraccionRepository;
-import com.torrescorrea.infraccionservice.service.InfraccionService;
+import com.santamariachafloc.denunciaservice.entity.Denuncia;
+import com.santamariachafloc.denunciaservice.repository.DenunciaRepository;
+import com.santamariachafloc.denunciaservice.service.DenunciaService;
 
 @Service
 @Transactional
-public class InfraccionServiceImpl implements InfraccionService {
+public class DenunciaServiceImpl implements DenunciaService {
 
     @Autowired
-    private InfraccionRepository infraccionRepository;
+    private DenunciaRepository denunciaRepository;
 
     @Override
-    public List<Infraccion> getAll() {
-        return infraccionRepository.findAll();
+    public List<Denuncia> getAll() {
+        return denunciaRepository.findAll();
     }
 
     @Override
-    public Infraccion get(Integer id) {
-        Optional<Infraccion> infraccion = infraccionRepository.findById(id);
-        return infraccion.orElse(null);
+    public Denuncia get(Integer id) {
+        Optional<Denuncia> denuncia = denunciaRepository.findById(id);
+        return denuncia.orElse(null);
     }
 
     @Override
-    public Infraccion create(Infraccion infraccion) {
-        return infraccionRepository.save(infraccion);
+    public Denuncia create(Denuncia denuncia) {
+        denuncia.setCreatedAt(LocalDateTime.now()); // Fecha de creación
+        denuncia.setEstado("Activa"); // Estado inicial
+        return denunciaRepository.save(denuncia);
     }
 
     @Override
-    @Transactional
-    public Infraccion update(Infraccion infraccion) {
-        Optional<Infraccion> registroOpt = infraccionRepository.findById(infraccion.getId());
+    public Denuncia update(Denuncia denuncia) {
+        Optional<Denuncia> registroOpt = denunciaRepository.findById(denuncia.getId());
         if (registroOpt.isPresent()) {
-            Infraccion registro = registroOpt.get();
-            registro.setDni(infraccion.getDni());
-            registro.setFecha(infraccion.getFecha());
-            registro.setTipo_infraccion(infraccion.getTipo_infraccion());
-            registro.setUbicacion(infraccion.getUbicacion());
-            registro.setDescripcion(infraccion.getDescripcion());
-            registro.setMonto_multa(infraccion.getMonto_multa());
-            registro.setEstado(infraccion.getEstado());
-            return infraccionRepository.save(registro);
+            Denuncia registro = registroOpt.get();
+            registro.setDni(denuncia.getDni());
+            registro.setFecha(denuncia.getFecha());
+            registro.setTitulo(denuncia.getTitulo());
+            registro.setDireccion(denuncia.getDireccion());
+            registro.setDescripcion(denuncia.getDescripcion());
+            registro.setUpdatedAt(LocalDateTime.now()); // Fecha de actualización
+            registro.setEstado(denuncia.getEstado());
+            return denunciaRepository.save(registro);
         } else {
             return null;
         }
@@ -55,11 +57,11 @@ public class InfraccionServiceImpl implements InfraccionService {
 
     @Override
     public void delete(Integer id) {
-        infraccionRepository.deleteById(id);
+        denunciaRepository.deleteById(id);
     }
 
     @Override
-    public List<Infraccion> getByDni(String dni) {
-        return infraccionRepository.findByDni(dni);
+    public List<Denuncia> getByDni(String dni) {
+        return denunciaRepository.findByDni(dni);
     }
 }
